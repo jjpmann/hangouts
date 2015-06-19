@@ -1,0 +1,169 @@
+/* Zero default margin & padding around common elements */
+body, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, li, ol, p, ul {
+	margin: 0;
+	border: 0 none #fff;
+	padding: 0;
+}
+
+
+img {
+	border: 0 none transparent;
+}
+
+input, select, table, textarea {
+	font-size: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.canvas {
+	max-width: 50em;
+}
+
+.button {
+	border: 1px solid #527b09;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	font-size: 16px;
+	text-align: center;
+}
+
+.button a {
+	display: block;
+	height: 25px;
+	border-top: 1px solid #b1cb40;
+	border-left: 1px solid #b1cb40;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	background: #9b0 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAdCAYAAAFtflphAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAALpJREFUeNpi/P//PwM+wAjEEvgUsACxJCEFeE0ACCDGQeAGgAACWcHDQAEg6ARiDJAYUBcABBDBeCBoADUCkWIDeAfcBUM8DAACCBSNbAwDCCgOgmHhAN7RKBjRUQAQQBQXxxQ7YDCUA6MOGHUA+2gUjDpg1AGj2XAgHQAQYKDakJlhBANQAHCO9ADgH+kBIDrSA0BmpAeA0kgPAI2RHgB6IzkABrwhMhoAowEw8AHAPtIDgHU0BYxgAABHiA9sOZGGKwAAAABJRU5ErkJggg==) repeat-x 0 100%;
+	color: #fff;
+	line-height: 25px;
+	text-shadow: rgba(0,0,0,0.5) 1px 1px 0;
+	text-decoration: none;
+}
+
+.button.selected a {
+	outline: none;
+	border-top: 1px solid transparent !important;
+	border-left: 1px solid transparent !important;
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAdCAYAAAFtflphAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAANBJREFUeNpiZGBg6GfAA1iA+BUhBR8oUgAQQIyDwA0AAQRyQzMDBQBkwztKDXhPqQHfKDEAIIAIxgMxLvgyoF4AGfBjwA34TqkBPyk14C8lBgAEECgddDEMIKA4HVHDAd8G2gE/R3wI/BpoB/weSAcABBDFxfGQD4FBkQt+jzpgoB3wd6Ad8GfEO+DXiE8Do4nw/0A74N9AOgAgwEDVcQ/DCAYDXhsPhgD4O9ID4NdID4A/Iz0Afo+mgNEAGM0Co9XgaAoYwQHwbzQLjKaAkQsAULI0L67UpEoAAAAASUVORK5CYII=);
+}
+
+.button:hover {
+	border-color: #fcdd65;
+}
+
+.button a span {
+	margin-left: 0.25em;
+	opacity: 0.66;
+	text-shadow: none;
+}
+
+ul {
+	margin: 0 6px 0 6px;
+	list-style: none;
+}
+
+ul li {
+	min-height: 29px;
+	margin-top: 12px;
+	padding-left: 35px;
+}
+
+.avatar {
+	float: left;
+	margin-left: -35px;
+	border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+h2 {
+	font-size: 13px;
+	line-height: 1.2;
+}
+
+p {
+	font-size: 80%;
+	opacity: 0.66;
+}
+
+
+
+
+.status-box {
+	position: absolute;
+}
+
+.status-box input {
+	border: 1px solid black;
+	font-size: 8pt;
+}
+
+#status-input {
+	display: none;
+	border: 1px solid blue;
+	background-color: white;
+	font-size: 8pt;
+	width: 11em;
+}
+
+
+
+body {
+	background: #000; 
+	color: #fff;
+}
+
+#start {
+	width:  100%;
+	min-height: 400px;
+	text-align: center;
+}
+
+#test {
+	text-align: center;
+}
+
+#test a, #start a {
+	text-decoration: none;
+	color: #000;
+	padding: 20px 30px;
+	border: 1px solid #fff;
+	background:  #ddd;
+	margin: 150px auto;
+	display: inline-block;
+}
+
+#test a {
+	padding: 8px 14px;
+}
+
+
+
+#game {
+	display: none;
+}
+
+.card {
+	display: inline-block;
+	width: 45px;
+	height: 80px;
+	padding: 3px;
+	border: 1px solid #aaa;
+	margin: 5px 5px 0 0;
+	background: #eee;
+	color: #f00;
+
+	border-radius: 2px;
+}
+
+.hand { padding: 0 10px;  }
+
+.card.s_s, .card.s_c {
+	color: #000;
+}
+
+#play { float: left; width:300px; height: 400px; background: #ddd; margin:40px 20px 0 0;}
+
+
+.hide { display: none; }
