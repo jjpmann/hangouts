@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>Hangouts War</title>
-	<style><?php require_once('./style.css'); ?></style>
+	<style><?php require_once('./css/style.css'); ?></style>
 	<script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.4" ></script>
 </head>
 
@@ -56,7 +56,7 @@
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script><?php require_once( './script.js' ); ?></script>
+	<script><?php require_once( './js/script.js' ); ?></script>
 
 </body>
 </html>
