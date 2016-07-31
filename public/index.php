@@ -24,7 +24,7 @@ $xml = <<<XML
  * License for the specific language governing permissions and limitations under
  * the License
 -->
-	<ModulePrefs title="Hangouts War">
+	<ModulePrefs title="Hangouts War 2016">
 		<Require feature="rpc" />
 		<Require feature="views" />
 		<Require feature="locked-domain" />
