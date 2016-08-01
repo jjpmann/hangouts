@@ -49,9 +49,9 @@
 
         function _start(){
             console.log( '_start()' );
-            // gapi.hangout.data.sendMessage(
-            //     JSON.stringify(['_start'])
-            // );
+            gapi.hangout.data.sendMessage(
+                JSON.stringify(['_start'])
+            );
         }
 
         function _cardVal( card ){ _log('_cardVal('+card+')');
