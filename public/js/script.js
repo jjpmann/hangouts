@@ -517,6 +517,7 @@
      * @param {MessageReceievedEvent} event An event.
      */
     function onMessageReceived(event) {
+        console.log( 'onMessageReceived(event)' );
         try {
             var data = JSON.parse(event.message);
 
@@ -529,7 +530,7 @@
     }
 
     function onStateChanged(addedKeys, metadata, removedKeys, state){
-
+        console.log( 'onStateChanged(addedKeys, metadata, removedKeys, state)' );
         console.log( addedKeys, metadata, removedKeys, state );
     }
 
