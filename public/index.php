@@ -1,45 +1,47 @@
-<?php
+<html>
+<head>
+    <title>Hangouts War</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    
+</head>
 
-error_reporting(E_ALL);
+<body>
 
-ob_start();
-require_once("page.php");
-$page = ob_get_contents();
-ob_end_clean();
+    <div id="page_main">
 
+        <div class="players">
+            <div id="waiting"> <p class="msg">Waiting for users to join.</p></div>
+            <ul></ul>
+        </div>
 
+        <div id="start" class="-hide">
+            <a href="#start">Start</a>
+        </div>
 
-$xml = <<<XML
-<?xml version="1.0" encoding="UTF-8" ?>
-<Module>
-<!-- Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License
--->
-	<ModulePrefs title="Hangouts War 2016">
-		<Require feature="rpc" />
-		<Require feature="views" />
-		<Require feature="locked-domain" />
-	</ModulePrefs>
-	<Content type="html"><![CDATA[
+        <div id="game">
 
-		{$page}
+            <h2>War!</h2>
 
-]]>
-</Content>
-</Module>
-XML;
+            <div id="main">
 
+                <button id="btn_play">Play</button><button id="btn_deal">Deal</button>
 
+                <div id="deck"></div>
 
+                <div id="play">
+                    
+                </div>
 
-header('Content-Type: text/xml');
-die($xml);
+                <div id="hands"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/js/script.js"></script>
+
+</body>
+</html>

@@ -34,7 +34,7 @@
 
 			<div id="main">
 
-				<button id="btn_play">Play</button><button id="clear">Clear</button><button id="info">Info</button>
+				<button id="btn_play">Play</button><button id="btn_deal">Deal</button>
 
 				<div id="deck"></div>
 
