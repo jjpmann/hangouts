@@ -577,6 +577,7 @@
         // setup shared data
         console.log( 'sendData()', data );
         if (GAPI) {
+            console.log( 'working...' );
             gapi.hangout.data.submitDelta( data );
         }
         
