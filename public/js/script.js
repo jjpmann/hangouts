@@ -15,24 +15,30 @@
     // is game started
     var started_ = false;
 
+    function merge_options(obj1, obj2){
+        var obj3 = {};
+        for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+        for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+        return obj3;
+    }
 
     GAME = (function(){
 
         var defaults = {
                 suits       : ['s','h','c','d'],
-                vals        : ['2','3','4','5','6','7','8','9','10','J','Q','K','A'],
+                vals        : ['2','3','4','5',],//'6','7','8','9','10','J','Q','K','A'],
                 deck        : [],
                 players     : null,
-                pile        : null,
+                pile        : [],
                 winner      : null,
                 $hands      : $('#hands'),
             },
             o = {};
 
-        defaults.suits = ['c','h'];
+        //defaults.suits = ['c','h','d'];
 
-        function _options( opts ){ _log('_options');
-            o = _.extend( defaults, opts );
+        function _options( options ){ _log('_options');
+            o = merge_options(defaults, options);
         }
 
         function _makeDeck(){ _log('_makeDeck()');
@@ -57,7 +63,6 @@
         function _cardVal( card ){ _log('_cardVal('+card+')');
             // this should be fixed - should be a better way to do this
             //_log( '_cardVal: ' + card );
-
             // removing suit from card
             var v = card.replace('c','').replace('d','').replace('h','').replace('s','');
             // changing face cards to number value
@@ -68,10 +73,8 @@
 
         function _deal(){ _log('_deal()');
         
-            var p=o.players;
-
             // loop through all players in name array
-            _.each(o.players,function(v,i){
+            o.players.forEach(function(v,i){
                 //_log( {msg:['player',v.playername,v.playerid],type:3})
                 
                 // Create each player 
@@ -82,33 +85,49 @@
                     h = o.players[i].div(),
                     t = $('<h5>').html(n),
                     d = $('<div>').addClass('hand').attr('id',h).html(t);
-                o.$hands.append(d);             
+                o.$hands.append(d);
 
             });
 
             // Deal each card to all playes
-            _.each(o.deck,function(v,i){
-                var d = i % p.length;
+            o.deck.forEach(function(v,i){
+                var d = i % o.players.length;
                 o.players[d].winCards( v );
             });
-
         }
 
-        function _play(){ _log('_play()');
+
+        function _play(check){ _log('_play()');
 
             var p = o.players,  // players
                 m = 0,          // max
                 w = [],         // winners
                 d = '',         // display
-                pile = [];
+                t = 0;          // total cards
 
+            check = typeof check != 'undefined' ? check : true;
 
-            _.each(p, function(v){
-                var c   = v.playCard(),
-                    cv  = _cardVal( v.card() );
+            // validate enough players to play
+            current = p.filter(function(player){
+                return !player.lost()
+            })
+
+            if (current.length == 1) {
+                console.log( current[0].name() + ' Wins!' );
+                return false;
+            }   
+
+            if (o.pile.length == 0) {
+                $('#play').html('');
+            }
+
+            current.forEach(function(player){
+                var c   = player.playCard(),
+                    cv  = _cardVal( player.card() ),
+                    content = $('<div>').addClass('card').addClass('cards_' + player.div());
 
                     // add each card to the pile
-                    pile.push(c);
+                    o.pile.push(c);
 
                     // clear winners if card is higher
                     if( cv > m ) { w=[]; }
@@ -116,68 +135,133 @@
                     // set max and add to winners
                     if( cv >= m ){
                         m = cv;
-                        w.push(v);
+                        w.push(player);
                     }
+                t += player.hand().length;
+                d += player.name() + '('+ player.hand().length +'): ' + cv + "\t";
 
-                d += v.name() + '('+ v.hand().length +'): ' + cv + "\t";
-                return cv;
+                content.html(player.name() + ': ' + c)
+                $('#play').append(content);
+
+                //return cv;
             });
 
-            // log the display
-            _log( d ); //_log( 'max: ' + m );
+            if (check) {
 
-            // if more then one winner - declare war
-            if( w.length > 1 ){
-                pile = _playWar(pile);
-                _log( 'War! : ' + pile );
+                console.log( o.pile );
+                
+                // log the display
+                _log( d ); //_log( 'max: ' + m );
+                _log( 'total cards: ' + t );
+
+                // if more then one winner - declare war
+                if( w.length > 1 ){
+                    _log( {msg: 'War! : ' + o.pile, type: 2} );
+                    _playWar();
+                    return;
+                }
+
+                // Set Winner
+                if( w.length == 1){
+
+                    var winner = w[0];
+                    _log( {msg:'Winner: ' + winner.name(), type: 4} );
+
+                    // Push to Winner
+                    winner.winCards(o.pile);
+
+                    o.pile = [];
+
+                    // Clear all players card
+                    
+                }
             }
-
-            // Set Winner
-            if( w.length == 1){
-                var winner = w[0];
-                //_log( 'Winner: ' + winner.name() );
-
-                // Push to Winner
-                winner.winCards(pile);
-
-                // Clear all players card
-                _endTurn();
-
-            }
+            _endTurn();
         }
 
         function _endTurn(){
-            _.each(o.players,function(v,i){
+            o.players.forEach(function(v,i){
                 w = v.endTurn();
-            });
+            })
         }
 
-        function _playCards(){
-            var pile = [];
-            _.each(o.players,function(v,i){
+        function _playCards(check){
+            var p = o.players,  // players
+                m = 0,          // max
+                w = [],         // winners
+                d = '',         // display
+                t = 0,          // total cards
+                pile = [];
+
+            o.players.forEach(function(v,i){
+                var cv  = _cardVal( v.card() );
+
                 pile.push( v.playCard() );
+
+                // clear winners if card is higher
+                if( cv > m ) { w=[]; }
+
+                    // set max and add to winners
+                    if( cv >= m ){
+                        m = cv;
+                        w.push(v);
+                    }
             });
             return pile;
         }
 
-        function _playWar(pile){
-            pile = pile.concat( _playCards() );
+        function _playWar(){
+
+            // only plays that tied shoule be included in war
+
             _endTurn();
-            pile = pile.concat( _playCards() );
-            _endTurn();
-            pile = pile.concat( _playCards() ); 
-            _endTurn();
-            return pile;
+            _play(false);
+            
+            _play(false);
+            
+            _play(true); 
+            
         }
 
         function _init( options ){ _log( '_init' );
             _options( options );
             _makeDeck();
-            //_deal();
+            _deal();
         }
 
         function _players(){
             return o.players;
+        }
+
+        function _reset(){
+             
+            $('#play').html('');
+
+            o.deck = o.deck.shuffle();
+
+            o.$hands.html('');
+
+            // loop through all players in name array
+            o.players.forEach(function(v,i){
+                //_log( {msg:['player',v.playername,v.playerid],type:3})
+    
+                // Create player hand div
+                var n = o.players[i].name(),
+                    h = o.players[i].div(),
+                    t = $('<h5>').html(n),
+                    d = $('<div>').addClass('hand').attr('id',h).html(t);
+                o.$hands.append(d);
+
+                o.players[i].reset();
+
+            });
+
+            // Deal each card to all playes
+            o.deck.forEach(function(v,i){
+                var d = i % o.players.length;
+                o.players[d].winCards( v );
+            });
+
         }
 
         function _get(v){
@@ -195,6 +279,7 @@
             players : _players,
             deal    : _deal,
             sync    : _sync,
+            reset   : _reset,
             shared  : { started: 'true' }
         }
 
@@ -210,7 +295,7 @@
                 card        : null,
                 lost        : false,
             },
-            o = _.extend( defaults, options );
+            o = merge_options(defaults, options);
 
         function _set(k,v){
             o[k] = v;
@@ -225,7 +310,6 @@
 
             // did not play yet - play top/first card
             var card = o.hand.shift();
-
 
             // GAME.remove.card
 
@@ -245,7 +329,7 @@
             //-------------------
 
             // set card
-            _set('card',card);
+            _set('card', card);
 
             return o.card;
         }
@@ -277,7 +361,7 @@
             }
         }
 
-        function _winCards( cards ) { _log( {msg:['_winCards', cards],type:4} );
+        function _winCards( cards ) { _log( {msg:['_winCards', cards], type: 4} );
             o.hand = o.hand.concat( cards );
 
             // GAME.winCards
@@ -297,19 +381,25 @@
                 document.getElementById("main").dispatchEvent(event);
 
             //---------------------
-
         }
 
         function _get(v){
             return o[v];
         }
 
+        function _resetHand(){
+            o.lost = false;
+            o.hand = [];
+        }
+
         return {
             playCard:   _playCard,
             winCards:   _winCards,
             endTurn:    _endTurn,
+            reset:      _resetHand,
             get:        _get,
             hand: function(){ return o.hand; },
+            lost: function(){ return o.lost; },
             name: function(){ return o.name; },
             card: function(){ return o.card; },
             div:  function(){ return 'hand_'+o.id; },
@@ -322,8 +412,7 @@
     //   Buttons
     //--------------------------------------------------------
 
-    $('#start a:first').click(function(){
-
+    function gameStart(){
         if (GAPI) {
             var p = gapi.hangout.getEnabledParticipants(),
                 info = {
@@ -345,6 +434,7 @@
             init_players = [
                 {playerid: 1, playername: 'Player 1'},
                 {playerid: 2, playername: 'Player 2'},
+              //  {playerid: 3, playername: 'Player 3'},
             ];
         }
 
@@ -355,11 +445,22 @@
         started_ = true;
 
         GAME.sync();
-        
+
+        $('#game').show();
+
+        $('#start').hide();
+    }
+
+    $('#start a:first').click(function(){
+        gameStart();
     });
 
     $('#btn_play').click(function(){
         GAME.play();
+    });
+
+    $('#btn_deal').click(function(){
+        GAME.reset();
     });
 
 
@@ -392,8 +493,8 @@
 
     // playerLost event handler
     function playerLostHandler(e){
-        //_log( e );
-        alert( e.detail.name + ' Lost!' );
+        _log( {msg: e.detail.name + ' Lost!', type: 1} );
+        //alert( e.detail.name + ' Lost!' );
     }
 
     // add play card event
