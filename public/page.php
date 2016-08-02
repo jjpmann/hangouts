@@ -2,7 +2,7 @@
 <head>
 	<title>Hangouts War</title>
 	<link rel="stylesheet" type="text/css" href="http://localhost/css/style.css">
-	<script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.4" ></script>
+	<script src="//plus.google.com/hangouts/_/api/v1/hangout.js" ></script>
 </head>
 
 <body>
