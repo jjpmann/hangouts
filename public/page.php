@@ -56,7 +56,9 @@
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script><?php require_once( './js/script.js' ); ?></script>
+	<script src="http://hangouts.dev/js/script.js"></script>
+	<script><?php //require_once( './js/script.js' ); ?></script>
+
 
 </body>
 </html>
