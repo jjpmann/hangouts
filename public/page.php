@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>Hangouts War</title>
-	<link rel="stylesheet" type="text/css" href="//localhost/css/style.css">
+	<link rel="stylesheet" type="text/css" href="http://localhost/css/style.css">
 	<script src="//plus.google.com/hangouts/_/api/v1/hangout.js" ></script>
 </head>
 
@@ -40,7 +40,7 @@
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="//localhost/js/script.js"></script>
+	<script src="http://localhost/js/script.js"></script>
 
 </body>
 </html>
